@@ -1,4 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Interface } from 'readline';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -6,11 +9,33 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  constructor() {}
+  credentials = {
+    email: '',
+    password: '',
+  };
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
+    localStorage.removeItem('loggedIn');
+    localStorage.removeItem('userRole');
   }
   ngOnDestroy() {
+  }
+  login() {
+    if(this.credentials.email !== "" && this.credentials.password !== "") {
+      this.authService.logIn(this.credentials).subscribe({
+        next: (response: any) => {
+          localStorage.setItem('loggedIn' , 'true');
+          localStorage.setItem('userRole' , response.user.role);
+          this.router.navigate(['./dashboard']);
+        },
+        error: (error) => {
+        },
+        complete: () => {
+        }
+      })
+    }
   }
 
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import Chart from 'chart.js';
 
 // core components
@@ -22,7 +23,13 @@ export class DashboardComponent implements OnInit {
   public clicked: boolean = true;
   public clicked1: boolean = false;
 
+  constructor(private router: Router) { }
+
   ngOnInit() {
+
+    if(!localStorage.getItem('loggedIn')) {
+      this.router.navigate(['./login']);
+    }
 
     this.datasets = [
       [0, 20, 10, 30, 15, 40, 20, 60, 60],
