@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  public firstName: string = "";
+  public lastName: string = "";
   public focus;
   public listTitles: any[];
   public location: Location;
@@ -18,6 +20,8 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
+    this.firstName = JSON.parse(localStorage.getItem('user')).firstName;
+    this.lastName = JSON.parse(localStorage.getItem('user')).lastName;
   }
   getTitle(){
     var titlee = this.location.prepareExternalUrl(this.location.path());

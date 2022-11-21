@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     localStorage.removeItem('loggedIn');
-    localStorage.removeItem('userRole');
+    localStorage.removeItem('user');
   }
   ngOnDestroy() {
   }
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService.logIn(this.credentials).subscribe({
         next: (response: any) => {
           localStorage.setItem('loggedIn' , 'true');
-          localStorage.setItem('userRole' , response.user.role);
+          localStorage.setItem('user' , JSON.stringify(response.user));
           this.router.navigate(['./dashboard']);
         },
         error: (error) => {
